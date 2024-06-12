@@ -1,5 +1,7 @@
 import appconfigs as appconfigs
 import app.retrievers.default_retriever as retrievers
+import app.parsers.default_parser as parsers
+import app.reporter.default_reporter as reporters
 
 
 class App:
@@ -9,6 +11,8 @@ class App:
         """Initialize the structure of application"""
         self.appconfigs = appconfigs.AppConfigs()
         self.retriever = retrievers.RealEstateRawInfoRetriever(self.appconfigs)
+        self.parser = parsers.RealEstateRawInfoParser()
+        self.reporter = reporters.RealEstateCSVReporter()
 
     def run(self):
         """Run the main logic of application"""
