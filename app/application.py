@@ -4,6 +4,7 @@ import app.parsers.default_parser as parsers
 import app.reporter.default_reporter as reporters
 
 
+
 class App:
     """App class to create a structure of the application"""
 
@@ -21,6 +22,4 @@ class App:
 
 if __name__ == '__main__':
     """Main method of application"""
-
-    application = App()
-    application.run()
+    App().run()

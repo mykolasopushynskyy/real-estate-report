@@ -1,3 +1,5 @@
 pip~=22.2.1
 setuptools~=63.2.0
 requests~=2.32.3
+pandas~=2.2.2
+beautifulsoup4~=4.4.1

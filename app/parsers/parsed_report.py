@@ -23,4 +23,7 @@ class ParsedReport:
         self.records = {}
 
     def append(self, district, date, price):
-        self.records[district].append(PriceRecord(date, price))
+        if district in self.records:
+            self.records[district].append(PriceRecord(date, price))
+        else:
+            self.records[district] = []
