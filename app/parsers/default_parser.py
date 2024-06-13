@@ -2,7 +2,7 @@ import collections
 
 collections.Callable = collections.abc.Callable
 from bs4 import BeautifulSoup
-from app.parsers.parsed_report import ParsedReport
+from app.parsed_report import ParsedReport
 
 HTML_PARSER = "html.parser"
 
@@ -23,13 +23,19 @@ class RealEstateRawInfoParser:
                         .find_all_next("tr", class_="vals"))
         date = (soup.find_all("table", class_="tHH")[0]
                         .find_all_next("tr", class_="headHH2")[0]
-                .find_all_next("td")[1]).text
+                        .find_all_next("td")[1]).text
 
         # Form a finalized report
+        prices = {}
         for data in prices_table:
             string_data = data.text.strip().split("\n")
-            if len(string_data) == 2 and string_data[1] != "-":
-                print(string_data[0], date, string_data[1].strip("$"))
-                result.append(string_data[0], date, string_data[1].strip("$"))
+            if len(string_data) == 2 and string_data[1].strip() != "-":
+                district = string_data[0]
+                price = int(string_data[1].strip().strip("$"))
+                if not (district in prices):
+                    prices[district] = []
+                prices[district].append(price)
+
+        result.append(date, prices)
 
         return result

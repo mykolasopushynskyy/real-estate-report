@@ -7,7 +7,6 @@ class ConfigsTestCase(unittest.TestCase):
         configs = AppConfigs()
         self.assertIsNotNone(configs)
         self.assertIsNotNone(configs.get_source_url())
-        print(configs.get_source_url())
 
 
 if __name__ == '__main__':

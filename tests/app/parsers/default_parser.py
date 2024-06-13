@@ -5,6 +5,7 @@ from app.parsers.default_parser import RealEstateRawInfoParser
 
 TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), 'test_parser_input.html')
 
+
 class RealEstateRawInfoParserTest(unittest.TestCase):
 
     def setUp(self):
