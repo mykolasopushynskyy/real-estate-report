@@ -23,7 +23,8 @@ class RealEstateRawInfoParser:
                         .find_all_next("tr", class_="vals"))
         date = (soup.find_all("table", class_="tHH")[0]
                         .find_all_next("tr", class_="headHH2")[0]
-                        .find_all_next("td")[1]).text
+                        .find_all_next("td")[1]).text.split(".")
+        date = date[2] + "-" + date[1] + "-" + date[0]
 
         # Form a finalized report
         prices = {}

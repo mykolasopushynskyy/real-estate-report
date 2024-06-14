@@ -11,8 +11,10 @@ class AppConfigs:
     REPORT = "report"
     DESTINATION_FOLDER = "destination_folder"
 
+    PROJECT_DIR = os.path.dirname(__file__)
+
     def __init__(self):
-        configfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources', 'properties.ini'))
+        configfile = os.path.abspath(os.path.join(AppConfigs.PROJECT_DIR, 'resources', 'properties.ini'))
 
         self.config = configparser.ConfigParser()
         self.config.read(configfile)
