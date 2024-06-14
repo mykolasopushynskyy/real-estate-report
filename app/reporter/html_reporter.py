@@ -64,11 +64,5 @@ class RealEstateHTMLReporter:
         )
 
         html_report_file = report_file.replace(".csv", ".html")
-        fig.write_html(html_report_file, auto_open=True)
+        fig.write_html(html_report_file, auto_open=False)
         return html_report_file
-
-
-if __name__ == '__main__':
-    """Main method of application"""
-    report_file = os.path.abspath(os.path.join(AppConfigs.PROJECT_DIR, 'reports', '13-06-2024.csv'))
-    RealEstateHTMLReporter().generate_report(report_file)

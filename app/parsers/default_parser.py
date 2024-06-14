@@ -13,26 +13,28 @@ class RealEstateRawInfoParser:
     def __init__(self):
         pass
 
-    def parse(self, html: str):
+    def parse(self, city: str, html: str):
         """A class used to make calls to real estate source."""
         result = ParsedReport()
         soup = BeautifulSoup(html, HTML_PARSER)
 
         # Retrieve table data
-        prices_table = (soup.find_all("table", class_="tHH")[0]
-                        .find_all_next("tr", class_="vals"))
+        prices_table = (soup.find("table", {"class": "tHH"})
+                        .findChildren("tr", {"class": "vals"}))
         date = (soup.find_all("table", class_="tHH")[0]
-                        .find_all_next("tr", class_="headHH2")[0]
-                        .find_all_next("td")[1]).text.split(".")
+            .find_all_next("tr", class_="headHH2")[0]
+            .find_all_next("td")[1]).text.split(".")
         date = date[2] + "-" + date[1] + "-" + date[0]
 
         # Form a finalized report
         prices = {}
         for data in prices_table:
-            string_data = data.text.strip().split("\n")
-            if len(string_data) == 2 and string_data[1].strip() != "-":
-                district = string_data[0]
-                price = int(string_data[1].strip().strip("$"))
+            string_data = data.findChildren("td")
+            if len(string_data) == 2 and string_data[1].text.strip() != "-":
+                district = string_data[0].text
+                price = int(string_data[1].text.strip().strip("$"))
+                if district == '':
+                    district = city.capitalize()
                 if not (district in prices):
                     prices[district] = []
                 prices[district].append(price)

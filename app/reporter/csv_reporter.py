@@ -12,12 +12,12 @@ class RealEstateCSVReporter:
     def __init__(self, appconfig: AppConfigs):
         self.appconfig = appconfig
 
-    def generate_report(self, report_data: ParsedReport):
+    def generate_report(self, city: str, report_data: ParsedReport):
         """A method used to generate real estate report."""
         fields = list(report_data.records.keys())
 
         report_file = os.path.abspath(os.path.join(self.appconfig.get_report_destination_folder(),
-                                                   datetime.now().strftime('%d-%m-%Y') + ".csv"))
+                                                   city + "-" + datetime.now().strftime('%d-%m-%Y') + ".csv"))
 
         with open(report_file, 'w') as csvfile:
             # creating a csv dict writer object
@@ -31,8 +31,14 @@ class RealEstateCSVReporter:
                 row = {}
 
                 for district in fields:
-                    row[district] = report_data.records[district][i]
+                    try:
+                        row[district] = report_data.records[district][i]
+                    except TypeError:
+                        print("Parsing error")
+                    except IndexError:
+                        print("Parsing error")
 
                 writer.writerow(row)
+                csvfile.flush()
 
         return report_file

@@ -1,7 +1,9 @@
 class ParsedReport:
     """ A class used to represent report of prices divided on districts
         {
-            "district": [PriceRecord1, PriceRecord2, ...]
+            "Date":      [date1,  date2,  ...]
+            "District1": [price1, price2, ...]
+            "District2": [price1, price2, ...]
             ...
         }
     """
@@ -14,6 +16,7 @@ class ParsedReport:
         }
 
     def append(self, date, prices):
+        """Appends row to report"""
         for district in prices:
             if district != ParsedReport.DATE_FIELD:
                 if not (district in self.records):
@@ -23,6 +26,7 @@ class ParsedReport:
         self.records[ParsedReport.DATE_FIELD].append(date)
 
     def append_all(self, report):
+        """Appends reports together"""
         for key in report.records.keys():
             if not (key in self.records):
                 self.records[key] = []
