@@ -1,5 +1,3 @@
-import os
-
 from app.parsed_report import ParsedReport
 
 import pandas as pd
@@ -12,12 +10,13 @@ class RealEstateHTMLReporter:
     def __init__(self):
         pass
 
-    def generate_report(self, report_file: str):
+    def generate_report(self, city: str, report_file: str):
         """A method used to generate real estate report."""
 
         df = pd.read_csv(report_file)
 
-        fig = px.line(df, x=ParsedReport.DATE_FIELD, y=df.columns, title='Ціни на житло', line_shape='spline')
+        fig = px.line(df, x=ParsedReport.DATE_FIELD, y=df.columns,
+                      title=f"%s - вторинний ринок" % city.capitalize(), line_shape="spline")
         fig.update_layout(
             hovermode="x unified",
             legend_title_text='Район',
@@ -35,7 +34,11 @@ class RealEstateHTMLReporter:
                 "%{y}$"
             ])
         )
+        fig.update_yaxes(
+            title="Ціна, дол. США"
+        )
         fig.update_xaxes(
+            title="Дата",
             ticks="outside",
             ticklabelmode="period",
             tickcolor="black",
@@ -47,11 +50,11 @@ class RealEstateHTMLReporter:
             rangeslider_visible=True,
             rangeselector=dict(
                 buttons=list([
-                    dict(count=1, label="1y", step="year", stepmode="backward"),
-                    dict(count=5, label="5y", step="year", stepmode="backward"),
-                    dict(count=10, label="10y", step="year", stepmode="backward"),
-                    dict(count=20, label="20y", step="year", stepmode="backward"),
-                    dict(step="all")
+                    dict(count=1, label="1р", step="year", stepmode="backward"),
+                    dict(count=5, label="5р", step="year", stepmode="backward"),
+                    dict(count=10, label="10р", step="year", stepmode="backward"),
+                    dict(count=20, label="20р", step="year", stepmode="backward"),
+                    dict(label="ввесь час", step="all")
                 ])
             ),
             tickformat="%b '%y",

@@ -1,3 +1,5 @@
+import locale
+
 import progressbar
 
 import appconfigs as appconfigs
@@ -32,8 +34,6 @@ class App:
         self.parser = parsers.RealEstateRawInfoParser()
         self.html_reporter = html_reporters.RealEstateHTMLReporter()
         self.csv_reporter = csv_reporters.RealEstateCSVReporter(self.appconfigs)
-
-        progressbar.streams.wrap_stderr()
 
     def obfuscate_path(self, file_path: str):
         return file_path.replace(self.appconfigs.PROJECT_DIR, "<project_path>")
@@ -73,7 +73,7 @@ class App:
 
         csv_report = self.csv_reporter.generate_report(city, parsed_report)
         bar.print("\t├─CSV  report for city {0}: {1}".format(city.capitalize(), self.obfuscate_path(csv_report)))
-        html_report = self.html_reporter.generate_report(csv_report)
+        html_report = self.html_reporter.generate_report(city, csv_report)
         bar.print("\t└─HTML report for city {0}: {1}".format(city.capitalize(), self.obfuscate_path(html_report)))
 
         bar.print()
