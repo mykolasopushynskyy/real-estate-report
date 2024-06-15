@@ -8,6 +8,9 @@
 
 > [!NOTE]
 > Інформація про ціни на нерухомість доступна починаючи з 2003 року.
+>
+##### Приклад діаграми для Львова
+<kbd>![Alt text](https://github.com/mykolasopushynskyy/realEstateReport/blob/readme/blob/plot.png?raw=true "Діаграма цін на квартири")</kbd>
 
 ### Міста для яких генеруються звіти
 - Київ
@@ -16,7 +19,35 @@
 - Львів
 - Одеса
 - Харків
+### Запуск 
+Для запуску зайдіть `main` метод у файлі `./app/application.py` і запустіть цей скрипт. У разі успішного виконання лог буде наступним.
 
+```logs
+Starting price parsing for cities: ['київ', 'дніпропетровськ', 'донецьк', 'львів', 'одеса', 'харків']
+Київ [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
+	├─CSV report for city Київ: <project_path>/reports/київ-15-06-2024.csv
+	└─HTML report for city Київ: <project_path>/reports/київ-15-06-2024.html
+
+Дніпропетровськ [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
+	├─CSV report for city Дніпропетровськ: <project_path>/reports/дніпропетровськ-15-06-2024.csv
+	└─HTML report for city Дніпропетровськ: <project_path>/reports/дніпропетровськ-15-06-2024.html
+
+Донецьк [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
+	├─CSV report for city Донецьк: <project_path>/reports/донецьк-15-06-2024.csv
+	└─HTML report for city Донецьк: <project_path>/reports/донецьк-15-06-2024.html
+
+Львів [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
+	├─CSV report for city Львів: <project_path>/reports/львів-15-06-2024.csv
+	└─HTML report for city Львів: <project_path>/reports/львів-15-06-2024.html
+
+Одеса [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
+	├─CSV report for city Одеса: <project_path>/reports/одеса-15-06-2024.csv
+	└─HTML report for city Одеса: <project_path>/reports/одеса-15-06-2024.html
+
+Харків [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
+	├─CSV report for city Харків: <project_path>/reports/харків-15-06-2024.csv
+	└─HTML report for city Харків: <project_path>/reports/харків-15-06-2024.html
+```
 ### Можливі покращення
 > [!TIP]
 > Додати генерацію інтерактивних діаграм з урахуванням поправки на інфляцію долара США

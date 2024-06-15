@@ -33,6 +33,11 @@ class App:
         self.html_reporter = html_reporters.RealEstateHTMLReporter()
         self.csv_reporter = csv_reporters.RealEstateCSVReporter(self.appconfigs)
 
+        progressbar.streams.wrap_stderr()
+
+    def obfuscate_path(self, file_path: str):
+        return file_path.replace(self.appconfigs.PROJECT_DIR, "<project_path>")
+
     def generate_report_for_city(self, city: str):
         """ Generates report for one region/city
 
@@ -67,9 +72,9 @@ class App:
             parsed_report.append_all(new_report)
 
         csv_report = self.csv_reporter.generate_report(city, parsed_report)
-        bar.print("\t├─CSV report for city {0}: {1}".format(city.capitalize(), csv_report))
+        bar.print("\t├─CSV  report for city {0}: {1}".format(city.capitalize(), self.obfuscate_path(csv_report)))
         html_report = self.html_reporter.generate_report(csv_report)
-        bar.print("\t└─HTML report for city {0}: {1}".format(city.capitalize(), html_report))
+        bar.print("\t└─HTML report for city {0}: {1}".format(city.capitalize(), self.obfuscate_path(html_report)))
 
         bar.print()
 
