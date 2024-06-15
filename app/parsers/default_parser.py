@@ -37,7 +37,9 @@ class RealEstateRawInfoParser:
                 string_data = row.findChildren("td")
 
                 district = string_data[0].text
-                if district != "":
+                if district != "" or len(string_data) == 13:
+                    if district == "":
+                        district = city
                     price = int(string_data[month].text.strip().strip("$"))
                     if not (district in districts):
                         districts[district] = []

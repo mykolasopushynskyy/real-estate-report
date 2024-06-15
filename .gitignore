@@ -166,4 +166,5 @@ cython_debug/
 
 # Intellij
 .idea/
-reports/
+reports/*
+!reports/.gitkeep
