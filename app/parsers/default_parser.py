@@ -36,14 +36,17 @@ class RealEstateRawInfoParser:
             for row in prices_table:
                 string_data = row.findChildren("td")
 
-                district = string_data[0].text
-                if district != "" or len(string_data) == 13:
+                district = str(string_data[0].text).capitalize()
+                if district != "" or len(string_data) == 14 and string_data[1].text.strip() != "-":
                     if district == "":
-                        district = city
-                    price = int(string_data[month].text.strip().strip("$"))
-                    if not (district in districts):
-                        districts[district] = []
-                    districts[district].append(price)
+                        district = city.capitalize()
+                    try:
+                        price = int(string_data[month].text.strip().strip("$"))
+                        if not (district in districts.keys()):
+                            districts[district] = []
+                        districts[district].append(price)
+                    except ValueError:
+                        districts[district].append(0)
 
         for district in districts:
             result.append_row(district, districts[district])

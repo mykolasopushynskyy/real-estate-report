@@ -9,7 +9,7 @@ class RealEstateRawInfoRetrieverTest(unittest.TestCase):
     def test_retriever(self):
         config = appconfigs.AppConfigs()
         unit = RealEstateRawInfoRetriever(config)
-        unit.retrieve(2003, 1)
+        unit.retrieve("львів", 2003)
 
 
 if __name__ == '__main__':
