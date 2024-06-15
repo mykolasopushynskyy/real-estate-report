@@ -17,7 +17,7 @@ class RealEstateRawInfoParserTest(unittest.TestCase):
 
     def test_parser(self):
         unit = RealEstateRawInfoParser()
-        unit.parse(str(self.testdata))
+        unit.parse(2024, str(self.testdata))
 
 
 if __name__ == '__main__':

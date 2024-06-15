@@ -5,8 +5,6 @@ from app.parsed_report import ParsedReport
 import pandas as pd
 import plotly.express as px
 
-from appconfigs import AppConfigs
-
 
 class RealEstateHTMLReporter:
     """A class used to generate reports."""

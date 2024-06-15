@@ -25,6 +25,16 @@ class ParsedReport:
 
         self.records[ParsedReport.DATE_FIELD].append(date)
 
+    def append_dates(self, dates: list):
+        """Appends row to report"""
+        self.append_row(ParsedReport.DATE_FIELD, dates)
+
+    def append_row(self, key: str, dates: list):
+        """Appends row to report"""
+        if not (key in self.records):
+            self.records[key] = []
+        self.records[key].extend(dates)
+
     def append_all(self, report):
         """Appends reports together"""
         for key in report.records.keys():
