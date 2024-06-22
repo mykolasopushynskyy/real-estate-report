@@ -1,11 +1,11 @@
 import collections
 from datetime import datetime
 
+from app.consts import HTML_PARSER
+
 collections.Callable = collections.abc.Callable
 from bs4 import BeautifulSoup
 from app.parsed_report import ParsedReport
-
-HTML_PARSER = "html.parser"
 
 
 class RealEstateRawInfoParser:

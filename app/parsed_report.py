@@ -1,3 +1,6 @@
+from app.consts import DATE_FIELD
+
+
 class ParsedReport:
     """ A class used to represent report of prices divided on districts
         {
@@ -8,26 +11,24 @@ class ParsedReport:
         }
     """
 
-    DATE_FIELD = "Date"
-
     def __init__(self):
         self.records = {
-            ParsedReport.DATE_FIELD: []
+            DATE_FIELD: []
         }
 
     def append(self, date, prices):
         """Appends row to report"""
         for district in prices:
-            if district != ParsedReport.DATE_FIELD:
+            if district != DATE_FIELD:
                 if not (district in self.records):
                     self.records[district] = []
                 self.records[district].extend(prices[district])
 
-        self.records[ParsedReport.DATE_FIELD].append(date)
+        self.records[DATE_FIELD].append(date)
 
     def append_dates(self, dates: list):
         """Appends row to report"""
-        self.append_row(ParsedReport.DATE_FIELD, dates)
+        self.append_row(DATE_FIELD, dates)
 
     def append_row(self, key: str, dates: list):
         """Appends row to report"""

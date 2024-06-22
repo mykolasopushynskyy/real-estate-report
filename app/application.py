@@ -1,5 +1,3 @@
-import locale
-
 import progressbar
 
 import appconfigs as appconfigs
@@ -32,7 +30,7 @@ class App:
         self.appconfigs = appconfigs.AppConfigs()
         self.retriever = retrievers.RealEstateRawInfoRetriever(self.appconfigs)
         self.parser = parsers.RealEstateRawInfoParser()
-        self.html_reporter = html_reporters.RealEstateHTMLReporter()
+        self.html_reporter = html_reporters.RealEstateHTMLReporter(self.appconfigs)
         self.csv_reporter = csv_reporters.RealEstateCSVReporter(self.appconfigs)
 
     def obfuscate_path(self, file_path: str):
@@ -88,12 +86,11 @@ class App:
         if cities is None:
             cities = list(self.appconfigs.get_cities().keys())
 
-        print()
-        print("Starting price parsing for cities: {0}".format(cities))
+        print("\nStarting price parsing for cities: {0}\n".format(cities))
         for city in cities:
             self.generate_report_for_city(city)
 
 
 if __name__ == '__main__':
     """Main method of application"""
-    App().run()
+    App().run(["львів"])

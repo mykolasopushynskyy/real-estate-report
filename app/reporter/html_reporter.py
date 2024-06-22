@@ -1,21 +1,34 @@
-from app.parsed_report import ParsedReport
+from datetime import datetime
+
+from app.consts import DATE_FIELD
 
 import pandas as pd
 import plotly.express as px
+import cpi
+
+from appconfigs import AppConfigs
 
 
 class RealEstateHTMLReporter:
     """A class used to generate reports."""
 
-    def __init__(self):
-        pass
+    def __init__(self, appconfig: AppConfigs):
+        self.appconfig = appconfig
+        self.report_initial_date = datetime(self.appconfig.get_start_year(), 1, 1)
 
     def generate_report(self, city: str, report_file: str):
         """A method used to generate real estate report."""
-
         df = pd.read_csv(report_file)
 
-        fig = px.line(df, x=ParsedReport.DATE_FIELD, y=df.columns,
+        # Create inflation adjusted columns
+        for column_name in df.head():
+            if column_name != DATE_FIELD:
+                df[column_name + " інфляція"] = df.apply(
+                    lambda row: round(cpi.inflate(row[column_name], datetime.strptime(row[DATE_FIELD], "%Y-%m-%d"),
+                                            to=self.report_initial_date)), axis=1
+                )
+
+        fig = px.line(df, x=DATE_FIELD, y=df.columns,
                       title=f"%s - вторинний ринок" % city.capitalize(), line_shape="spline")
         fig.update_layout(
             hovermode="x unified",

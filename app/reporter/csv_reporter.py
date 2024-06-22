@@ -2,6 +2,7 @@ import csv
 import os
 from datetime import datetime
 
+from app.consts import DATE_FIELD
 from app.parsed_report import ParsedReport
 from appconfigs import AppConfigs
 
@@ -27,7 +28,7 @@ class RealEstateCSVReporter:
             writer.writeheader()
 
             # writing data rows
-            for i in range(0, len(report_data.records[ParsedReport.DATE_FIELD])):
+            for i in range(0, len(report_data.records[DATE_FIELD])):
                 row = {}
 
                 for district in fields:
