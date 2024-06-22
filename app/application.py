@@ -61,7 +61,7 @@ class App:
             progressbar.Percentage(), " ",
             progressbar.GranularBar(markers="·■", left="[", right="]")
         ]
-        bar = progressbar.ProgressBar(widgets=widgets, enable_colors=True, term_width=75)
+        bar = progressbar.ProgressBar(widgets=widgets, enable_colors=True, term_width=100)
         for year in bar(range(start_year, end_year)):
             bar.variables["year"] = year
             html_page = self.retriever.retrieve(city, year)
