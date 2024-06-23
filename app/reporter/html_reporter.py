@@ -1,14 +1,10 @@
-from datetime import datetime
-
-import cpi
 import pandas as pd
 import plotly.graph_objects as go
 import webcolors
+
 from _plotly_utils.colors.qualitative import Plotly
 from webcolors import IntegerRGB
-
 from app.consts import DATE_FIELD
-from appconfigs import AppConfigs
 
 
 class ColorIterator:
@@ -35,11 +31,10 @@ class ColorIterator:
 class RealEstateHTMLReporter:
     """A class used to generate reports."""
 
-    def __init__(self, appconfig: AppConfigs):
-        self.appconfig = appconfig
-        self.report_initial_date = datetime(self.appconfig.get_start_year(), 1, 1)
+    def __init__(self):
+        pass
 
-    def generate_report(self, city: str, report_file: str):
+    def generate_report(self, city: str, districts: list, report_file: str):
         """A method used to generate real estate report."""
         df = pd.read_csv(report_file)
         city = city.capitalize()
@@ -47,18 +42,12 @@ class RealEstateHTMLReporter:
         color_iterator = ColorIterator()
 
         # Create inflation adjusted columns
-        for column_name in df.head():
+        for column_name in districts:
             if column_name != DATE_FIELD:
                 district = column_name
                 district_adj = column_name + " інфл."
                 toggled = None if district == city else "legendonly"
                 width = 2 if district == city else 1
-
-                df[district_adj] = df.apply(
-                    lambda row: round(cpi.inflate(row[column_name],
-                                                  datetime.strptime(row[DATE_FIELD], "%Y-%m-%d"),
-                                                  to=self.report_initial_date)), axis=1
-                )
 
                 color = color_iterator.next_g10()
 
@@ -79,13 +68,11 @@ class RealEstateHTMLReporter:
             title=f"%s - вторинний ринок" % city,
             hovermode="x unified",
             legend=dict(
-                bordercolor="Black",
-                borderwidth=1,
                 orientation="h",
                 yanchor="bottom",
-                y=-0.4,
                 xanchor="left",
-                x=0
+                x=0,
+                y=-0.5,
             )
         )
         fig.update_traces(

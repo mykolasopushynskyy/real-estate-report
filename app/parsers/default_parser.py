@@ -1,11 +1,11 @@
 import collections
+
 from datetime import datetime
-
 from app.consts import HTML_PARSER
-
-collections.Callable = collections.abc.Callable
 from bs4 import BeautifulSoup
 from app.parsed_report import ParsedReport
+
+collections.Callable = collections.abc.Callable
 
 
 class RealEstateRawInfoParser:
@@ -27,8 +27,8 @@ class RealEstateRawInfoParser:
         districts = {}
         for month in range(1, 13 if year != datetime.now().year else datetime.now().month):
             date = (soup.find_all("table", class_="tHH")[0]
-                .find_all_next("tr", class_="headHH2")[0]
-                .find_all_next("td")[month]).text.split(".")
+            .find_all_next("tr", class_="headHH2")[0]
+            .find_all_next("td")[month]).text.split(".")
 
             dates.append(date[1] + "-" + date[0] + "-01")
 
