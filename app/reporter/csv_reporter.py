@@ -5,7 +5,7 @@ import cpi
 from datetime import datetime
 from app.consts import DATE_FIELD
 from app.parsed_report import ParsedReport
-from app_configs import AppConfigs
+from configs import AppConfigs
 
 
 class RealEstateCSVReporter:
@@ -17,7 +17,7 @@ class RealEstateCSVReporter:
         """
         Init method of :class:`RealEstateCSVReporter` class. Initializes a date to be used for inflation adjustment
 
-        :param configs: application configs of :class:`AppConfigs`
+        :param configs: application configs
         """
         self.configs = configs
         self.inflate_to = datetime(self.configs.get_inflation_adjustment_year(), 1, 1)

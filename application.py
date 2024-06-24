@@ -1,5 +1,6 @@
 import progressbar
-import app_configs as appconfigs
+import argparse
+import configs
 import app.retrievers.default_retriever as retrievers
 import app.parsers.default_parser as parsers
 import app.reporter.html_reporter as html_reporters
@@ -27,11 +28,11 @@ class App:
         - initializes HTML real estate prices parsers
         - initializes CSV and HTML reporters
         """
-        self.appconfigs = appconfigs.AppConfigs()
-        self.retriever = retrievers.RealEstateRawInfoRetriever(self.appconfigs)
+        self.configs = configs.AppConfigs()
+        self.retriever = retrievers.RealEstateRawInfoRetriever(self.configs)
         self.parser = parsers.RealEstateRawInfoParser()
-        self.html_reporter = html_reporters.RealEstateHTMLReporter()
-        self.csv_reporter = csv_reporters.RealEstateCSVReporter(self.appconfigs)
+        self.html_reporter = html_reporters.RealEstateHTMLReporter(self.configs)
+        self.csv_reporter = csv_reporters.RealEstateCSVReporter(self.configs)
 
         progressbar.streams.flush()
         progressbar.streams.wrap_stdout()
@@ -53,11 +54,11 @@ class App:
         parsed_report = ParsedReport()
 
         end_year = datetime.now().year + 1
-        start_year = self.appconfigs.get_start_year()
+        start_year = self.configs.get_start_year()
 
         widgets = [
             progressbar.Timer("%(elapsed)s"), " ",
-            progressbar.GranularBar(markers=" ━", left="[", right="]"), " ",
+            progressbar.GranularBar(markers=" ■", left="［", right="］"), " ",
             progressbar.Percentage(), " ",
             progressbar.Variable(YEAR, format="{formatted_value}", width=15), " ",
             progressbar.Variable(CITY, format="{formatted_value}", width=4)
@@ -76,27 +77,45 @@ class App:
             bar.variables[CITY] = city.capitalize()
 
         csv_report = self.csv_reporter.generate_report(city, parsed_report)
-        bar.print("\t- CSV  report for city {0}: {1}".format(city.capitalize(), self.obfuscate_path(csv_report)))
+        bar.print("\t- CSV  report for city {0}: {1}".format(city.capitalize(),
+                                                             configs.obfuscate_path(csv_report)))
+
         html_report = self.html_reporter.generate_report(city, parsed_report.records.keys(), csv_report)
-        bar.print("\t- HTML report for city {0}: {1}".format(city.capitalize(), self.obfuscate_path(html_report)))
+        bar.print("\t- HTML report for city {0}: {1}".format(city.capitalize(),
+                                                             configs.obfuscate_path(html_report)))
 
         bar.print()
-
         return csv_report, html_report
 
-    def run(self, cities=None):
+    def main(self, cities: list = None):
         """
         Run the main logic of application. Get the cities list from configs and starts to generate reports for each
         city one-by-one.
-        """
-        if cities is None or len(cities) == 0:
-            cities = list(self.appconfigs.get_cities().keys())
 
-        print("\nStarting price parsing for cities: {0}\n".format(cities))
+        :param cities: cities to generate report for
+        """
+        allowed_cities = set(self.configs.get_cities().keys())
+
+        if cities is None or len(cities) == 0:
+            cities = allowed_cities
+        else:
+            cities = {city.lower() for city in cities}
+
+        if not cities.issubset(allowed_cities):
+            raise ValueError("Cities %s are not allowed" % (list(cities - allowed_cities)))
+
+        print("\nStarting price parsing for cities: {0}\n".format(list(cities)))
         for city in cities:
             self.generate_report_for_city(city)
 
 
 if __name__ == '__main__':
-    """Main method of application"""
-    App().run(["львів"])
+    """Application entrypoint."""
+    parser = argparse.ArgumentParser("Real estate reporter")
+    parser.add_argument('-c', '--cities', nargs='+', default=[], required=False,
+                        help="cities for report generation")
+
+    args = parser.parse_args()
+
+    # run application
+    App().main(args.cities)

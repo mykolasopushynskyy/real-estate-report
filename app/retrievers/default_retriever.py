@@ -1,6 +1,6 @@
 import requests
 
-from app_configs import AppConfigs
+from configs import AppConfigs
 
 
 class RealEstateRawInfoRetriever:
@@ -14,7 +14,7 @@ class RealEstateRawInfoRetriever:
         """
         Init method of :class:`RealEstateRawInfoRetriever` class
 
-        :param configs: application configs of :class:`AppConfigs`
+        :param configs: application configs
         """
         self.configs = configs
 

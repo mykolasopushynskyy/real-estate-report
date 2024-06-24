@@ -1,5 +1,5 @@
 import unittest
-import app_configs as appconfigs
+import configs
 
 from app.retrievers.default_retriever import RealEstateRawInfoRetriever
 
@@ -7,7 +7,7 @@ from app.retrievers.default_retriever import RealEstateRawInfoRetriever
 class RealEstateRawInfoRetrieverTest(unittest.TestCase):
 
     def test_retriever(self):
-        config = appconfigs.AppConfigs()
+        config = configs.AppConfigs()
         unit = RealEstateRawInfoRetriever(config)
         unit.retrieve("львів", 2003)
 

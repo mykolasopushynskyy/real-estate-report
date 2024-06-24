@@ -1,10 +1,27 @@
 import pandas as pd
 import plotly.graph_objects as go
 import webcolors
+import _plotly_utils.colors.qualitative as palettes
 
-from _plotly_utils.colors.qualitative import Plotly
+from configs import AppConfigs
 from webcolors import IntegerRGB
 from app.consts import DATE_FIELD
+
+
+def brighter_color(value):
+    """
+    Make color brighter from color derived from input color.
+
+    :param value: hex color representation
+    :return: hex code of brighter color
+    :rtype: str
+    """
+    r, g, b = webcolors.hex_to_rgb(value)
+    r = int(r + (255 - r) * 0.33)
+    g = int(g + (255 - g) * 0.33)
+    b = int(b + (255 - b) * 0.33)
+
+    return webcolors.rgb_to_hex(webcolors.normalize_integer_triplet(IntegerRGB(red=r, green=g, blue=b)))
 
 
 class ColorIterator:
@@ -12,37 +29,23 @@ class ColorIterator:
     Class to iterate the Plotly palette and get the combination of palette color and brighter version of the same color.
     """
 
-    def __init__(self):
+    def __init__(self, palette: list):
         """
-        Init method of :class:`ColorIterator` class. Initializes a color palette for diagram.
+        Init method of :class:`ColorIterator` class. Initializes a color palette for diagram with original and bright
+        color version.
         """
         self.i = 0
-        self.g10_colors = [dict(dark=value, bright=self.brighter_color(value)) for value in Plotly]
+        self.colors = [dict(dark=value, bright=brighter_color(value)) for value in palette]
 
-    def brighter_color(self, value):
+    def next(self):
         """
-        Make color brighter from color derived from input color.
+        Return next color of palette
 
-        :param value: hex color representation
-        :return: hex code of brighter color
-        :rtype: str
-        """
-        r, g, b = webcolors.hex_to_rgb(value)
-        r = int(r + (255 - r) * 0.33)
-        g = int(g + (255 - g) * 0.33)
-        b = int(b + (255 - b) * 0.33)
-
-        return webcolors.rgb_to_hex(webcolors.normalize_integer_triplet(IntegerRGB(red=r, green=g, blue=b)))
-
-    def next_g10(self):
-        """
-        Return next color of Plotly g10 palette
-
-        :return: plotly g10 palette color
+        :return: next palette color
         :rtype: dict
         """
         self.i = self.i + 1
-        return self.g10_colors[(self.i % len(self.g10_colors)) - 1]
+        return self.colors[(self.i % len(self.colors)) - 1]
 
 
 class RealEstateHTMLReporter:
@@ -50,11 +53,13 @@ class RealEstateHTMLReporter:
     A class used to generate HTML Plotly reports.
     """
 
-    def __init__(self):
+    def __init__(self, configs: AppConfigs):
         """
         Init method of :class:`RealEstateHTMLReporter` class.
+
+        :param configs: application configs
         """
-        pass
+        self.config = configs
 
     def generate_report(self, city: str, districts: list, report_file: str):
         """
@@ -69,17 +74,18 @@ class RealEstateHTMLReporter:
         df = pd.read_csv(report_file)
         city = city.capitalize()
         fig = go.Figure()
-        color_iterator = ColorIterator()
+        color_iterator = ColorIterator(palettes.Light24)
 
         # Create inflation adjusted columns
         for column_name in districts:
             if column_name != DATE_FIELD:
                 district = column_name
                 district_adj = column_name + " інфл."
-                toggled = None if district == city else "legendonly"
-                width = 2 if district == city else 1
 
-                color = color_iterator.next_g10()
+                toggled = None if district == city or (not self.config.hide_districts()) else "legendonly"
+                width = 2
+
+                color = color_iterator.next()
 
                 go_district = go.Scatter(name=district, visible=toggled, legendgroup=district,
                                          x=df[DATE_FIELD],

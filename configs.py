@@ -23,6 +23,16 @@ def obfuscate_path(file_path: str):
     return file_path.replace(PROJECT_DIR, "<project_path>")
 
 
+def is_true_config(value: str):
+    """
+    Check if the string configs value is true
+
+    :param value: value to check
+    :rtype: bool
+    """
+    return "True" == value or "true" == value or "yes" == value
+
+
 class AppConfigs:
     """
     A class used to read project properties. Reads properties from config file.
@@ -85,7 +95,7 @@ class AppConfigs:
         :rtype: bool
         """
 
-        return bool(self.config.get(REPORT, HIDE_DISTRICTS))
+        return is_true_config(self.config.get(REPORT, HIDE_DISTRICTS))
 
     def get_report_destination_folder(self):
         """
