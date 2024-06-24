@@ -1,5 +1,5 @@
 import unittest
-import appconfigs as appconfigs
+import app_configs as appconfigs
 
 from app.retrievers.default_retriever import RealEstateRawInfoRetriever
 

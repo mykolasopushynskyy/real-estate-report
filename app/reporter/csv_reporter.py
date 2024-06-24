@@ -5,25 +5,39 @@ import cpi
 from datetime import datetime
 from app.consts import DATE_FIELD
 from app.parsed_report import ParsedReport
-from appconfigs import AppConfigs
+from app_configs import AppConfigs
 
 
 class RealEstateCSVReporter:
-    """A class used to generate reports."""
+    """
+    A class used to generate CSV reports.
+    """
 
-    def __init__(self, appconfig: AppConfigs):
-        self.appconfig = appconfig
-        self.inflate_to = datetime(self.appconfig.get_inflation_adjustment_year(), 1, 1)
+    def __init__(self, configs: AppConfigs):
+        """
+        Init method of :class:`RealEstateCSVReporter` class. Initializes a date to be used for inflation adjustment
+
+        :param configs: application configs of :class:`AppConfigs`
+        """
+        self.configs = configs
+        self.inflate_to = datetime(self.configs.get_inflation_adjustment_year(), 1, 1)
 
     def generate_report(self, city: str, report_data: ParsedReport):
-        """A method used to generate real estate report."""
+        """
+        A method used to generate real estate report.
+
+        :param city: name of city for report
+        :param report_data: city report date
+        :return: CSV report file path
+        :rtype: str
+        """
         fields = []
         for field in report_data.records.keys():
             fields.append(field)
             if field != DATE_FIELD:
                 fields.append(field + " інфл.")
 
-        report_file = os.path.abspath(os.path.join(self.appconfig.get_report_destination_folder(),
+        report_file = os.path.abspath(os.path.join(self.configs.get_report_destination_folder(),
                                                    city + "-" + datetime.now().strftime('%d-%m-%Y') + ".csv"))
 
         with open(report_file, 'w') as csvfile:

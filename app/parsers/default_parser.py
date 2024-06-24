@@ -1,7 +1,7 @@
 import collections
 
 from datetime import datetime
-from app.consts import HTML_PARSER
+from app.consts import HTML_PARSER, DATE_FIELD
 from bs4 import BeautifulSoup
 from app.parsed_report import ParsedReport
 
@@ -9,13 +9,26 @@ collections.Callable = collections.abc.Callable
 
 
 class RealEstateRawInfoParser:
-    """A class used to make calls to real estate source."""
+    """
+    A class used to make calls to real estate source and parse the HTML results from site.
+    """
 
     def __init__(self):
+        """
+        Init method of :class:`RealEstateRawInfoParser` class
+        """
         pass
 
     def parse(self, city: str, year: int, html: str):
-        """A class used to make calls to real estate source."""
+        """
+        A class used to make calls to real estate source.
+
+        :param city: name of city
+        :param year: year to parse current year
+        :param html: raw HTML to parse
+        :return: report with parsed data
+        :rtype: ParsedReport
+        """
         result = ParsedReport()
         soup = BeautifulSoup(html, HTML_PARSER)
 
@@ -49,7 +62,7 @@ class RealEstateRawInfoParser:
                         districts[district].append(0)
 
         for district in districts:
-            result.append_row(district, districts[district])
+            result.append_column(district, districts[district])
 
-        result.append_dates(dates)
+        result.append_column(DATE_FIELD, dates)
         return result

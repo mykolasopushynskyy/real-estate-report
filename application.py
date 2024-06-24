@@ -1,35 +1,31 @@
 import progressbar
-import appconfigs as appconfigs
+import app_configs as appconfigs
 import app.retrievers.default_retriever as retrievers
 import app.parsers.default_parser as parsers
 import app.reporter.html_reporter as html_reporters
 import app.reporter.csv_reporter as csv_reporters
 
-
-from progressbar.terminal.colors import light_gradient
-from progressbar.bar import ProgressBarMixinBase
 from datetime import datetime
 from app.parsed_report import ParsedReport
 
-# progress bar
+# progress bar variables names
 CITY = "city"
 YEAR = "year"
 
+
 class App:
-    """App class is implemented to create a structure of the application and contains mail business logic"""
+    """
+    App class is implemented to create a structure of the application and contains mail business logic
+    """
 
     def __init__(self):
-        """Initialize the structure of application
+        """
+        Initialize the core structure of application
 
         - initializes application configs class
-        - initializes retriever parsers and reporters
-
-        Methods
-        -------
-        generate_report_for_city(city: str):
-            Generates report for one region/city
-        run(cities: list):
-            Get the cities list from configs and starts to generate reports for each city one-by-one
+        - initializes HTML raw date retriever
+        - initializes HTML real estate prices parsers
+        - initializes CSV and HTML reporters
         """
         self.appconfigs = appconfigs.AppConfigs()
         self.retriever = retrievers.RealEstateRawInfoRetriever(self.appconfigs)
@@ -40,22 +36,19 @@ class App:
         progressbar.streams.flush()
         progressbar.streams.wrap_stdout()
 
-    def obfuscate_path(self, file_path: str):
-        return file_path.replace(appconfigs.PROJECT_DIR, "<project_path>")
-
     def generate_report_for_city(self, city: str):
-        """ Generates report for one region/city
+        """
+        Generates full report for one region/city
 
-        We are calling api to retrieve information yearly starting from 2003 to current yar
-        about some particular city(ies) we store information in configs file or manual using
-        The result is the parsed dictionary with time-series monthly data about prices by city districts
-        Than the data is written to CSV file to keep raw information as well as into
-        interactive HTML diagram which is useful for demos or presentation in human-readable form.
+        We are calling api to retrieve information yearly starting from 2003 to current yar about some particular
+        city(ies) we store information in configs file or manual using The result is the parsed dictionary with
+        time-series monthly data about prices by city districts Than the data is written to CSV file to keep raw
+        information as well as into interactive HTML diagram which is useful for demos or presentation in
+        human-readable form.
 
-        Parameters
-        ----------
-        city : str
-            The name of the city
+        :param city: The name of the city from configs
+        :return: CSV and HTML reports absolute path's
+        :rtype: tuple
         """
         parsed_report = ParsedReport()
 
@@ -77,7 +70,7 @@ class App:
             html_page = self.retriever.retrieve(city, year)
             new_report = self.parser.parse(city, year, html_page)
 
-            parsed_report.append_all(new_report)
+            parsed_report.extend(new_report)
 
             bar.variables[YEAR] = f"[ %4s / %4s ]" % (year, str(end_year - 1))
             bar.variables[CITY] = city.capitalize()
@@ -92,11 +85,11 @@ class App:
         return csv_report, html_report
 
     def run(self, cities=None):
-        """Run the main logic of application
-
-        Get the cities list from configs and starts to generate reports for each city one-by-one
         """
-        if cities is None:
+        Run the main logic of application. Get the cities list from configs and starts to generate reports for each
+        city one-by-one.
+        """
+        if cities is None or len(cities) == 0:
             cities = list(self.appconfigs.get_cities().keys())
 
         print("\nStarting price parsing for cities: {0}\n".format(cities))
@@ -106,4 +99,4 @@ class App:
 
 if __name__ == '__main__':
     """Main method of application"""
-    App().run(["київ"])
+    App().run(["львів"])
