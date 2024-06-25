@@ -29,5 +29,6 @@ class RealEstateRawInfoParserTest(unittest.TestCase):
         report = unit.parse("дніпропетровськ", 2018, str(self.testdata2))
         self.assertEqual(len(report.records.keys()), 10)
 
+
 if __name__ == '__main__':
     unittest.main()
