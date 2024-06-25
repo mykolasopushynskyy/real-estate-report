@@ -10,12 +10,12 @@
 > Інформація про ціни на нерухомість доступна починаючи з 2003 року.
 >
 ##### Приклад діаграми для Львова
-[Приклад діаграми](http://www.svdevelopment.com/ua/web/flat_costs/)
 <kbd>![Alt text](https://raw.githubusercontent.com/mykolasopushynskyy/realEstateReport/main/resources/example_result/diagram.png "Діаграма цін на квартири")</kbd>
 - Прямі графіки позначають ціни в долларах США
 - Переривчісті лінії позначають ціни в долларах США з поправкою на інфляцію
 - Подвійний клік по діаграмі змінює масштаб на масштаб по замовчуванню
 - Клікання по назві району на легенді ховає графік на діаграмі
+- [Приклад результатів роботи програми](https://github.com/mykolasopushynskyy/realEstateReport/tree/main/resources/example_result)
 
 ### Міста для яких генеруються звіти
 - Київ

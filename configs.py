@@ -97,7 +97,8 @@ class AppConfigs:
         :return: mapping between cities and retriever url city id
         :rtype: dict
         """
-        return value_or_else(self.cl_args.cities, [city for city in self.config.options(CITIES)])
+        return value_or_else([city.lower() for city in self.cl_args.cities],
+                             [city for city in self.config.options(CITIES)])
 
     def get_start_year(self):
         """

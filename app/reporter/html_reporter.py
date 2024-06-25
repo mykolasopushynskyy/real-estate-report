@@ -39,7 +39,14 @@ class ColorIterator:
         self.i = 0
         self.colors = [dict(dark=value, bright=brighter_color(value)) for value in palette]
 
-    def next(self):
+    def __iter__(self):
+        """
+        Iter method of :class:`ColorIterator` class. Returns iterator
+        """
+        self.i = 0
+        return self
+
+    def __next__(self):
         """
         Return next color of palette
 
@@ -87,7 +94,7 @@ class RealEstateHTMLReporter:
                 toggled = None if district == city or (not self.config.hide_districts()) else "legendonly"
                 width = 2
 
-                color = color_iterator.next()
+                color = next(color_iterator)
 
                 go_district = go.Scatter(name=district, visible=toggled, legendgroup=district,
                                          x=df[DATE_FIELD],
