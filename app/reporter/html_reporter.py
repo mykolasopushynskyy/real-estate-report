@@ -1,11 +1,13 @@
 import pandas as pd
 import plotly.graph_objects as go
 import webcolors
-import _plotly_utils.colors.qualitative as palettes
 
 from configs import AppConfigs
 from webcolors import IntegerRGB
 from app.consts import DATE_FIELD
+
+COLOR_PALETTE = ["#4421af", "#ea5545", "#f46a9b", "#ef9b20", "#50e991", "#87bc45", "#1a53ff", "#b33dc6", "#e60049",
+                 "#0bb4ff", "#9b19f5", "#ffa300", "#dc0ab4", "#00bfa0"]
 
 
 def brighter_color(value):
@@ -74,7 +76,7 @@ class RealEstateHTMLReporter:
         df = pd.read_csv(report_file)
         city = city.capitalize()
         fig = go.Figure()
-        color_iterator = ColorIterator(palettes.Light24)
+        color_iterator = ColorIterator(COLOR_PALETTE)
 
         # Create inflation adjusted columns
         for column_name in districts:

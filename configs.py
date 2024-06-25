@@ -1,5 +1,6 @@
 import configparser
 import os
+import argparse
 
 SOURCE = "source"
 SOURCE_URL = "url"
@@ -30,7 +31,23 @@ def is_true_config(value: str):
     :param value: value to check
     :rtype: bool
     """
-    return "True" == value or "true" == value or "yes" == value
+    return (not (value is None) and
+            "true".casefold() == value.casefold() or
+            "yes".casefold() == value.casefold() or
+            "y".casefold() == value.casefold())
+
+
+def value_or_else(value, or_else):
+    """
+    Return property value. If it is not present return or_else property
+
+    :param value: value to return
+    :param or_else: another value to return
+    :return:
+    """
+    if value is None:
+        return or_else
+    return value
 
 
 class AppConfigs:
@@ -38,12 +55,15 @@ class AppConfigs:
     A class used to read project properties. Reads properties from config file.
     """
 
-    def __init__(self):
+    def __init__(self, cl_args: argparse.Namespace):
         """
         Init method of :class:`AppConfigs` class. Reads config file and initializes config parser
+
+        :param cl_args: command-line arguments
         """
         configfile = os.path.abspath(os.path.join(PROJECT_DIR, 'resources', 'properties.ini'))
 
+        self.cl_args = cl_args
         self.config = configparser.ConfigParser()
         self.config.read(configfile)
 
@@ -57,7 +77,7 @@ class AppConfigs:
 
         return self.config.get(SOURCE, SOURCE_URL)
 
-    def get_cities(self):
+    def get_cities_mappings(self):
         """
         Get the real estate available cities
 
@@ -69,6 +89,15 @@ class AppConfigs:
             cities[city] = self.config.get(CITIES, city)
 
         return cities
+
+    def get_cities(self):
+        """
+        Get the real estate cities to generate report for
+
+        :return: mapping between cities and retriever url city id
+        :rtype: dict
+        """
+        return value_or_else(self.cl_args.cities, [city for city in self.config.options(CITIES)])
 
     def get_start_year(self):
         """
@@ -95,7 +124,8 @@ class AppConfigs:
         :rtype: bool
         """
 
-        return is_true_config(self.config.get(REPORT, HIDE_DISTRICTS))
+        return value_or_else(is_true_config(self.cl_args.hide_districts),
+                             is_true_config(self.config.get(REPORT, HIDE_DISTRICTS)))
 
     def get_report_destination_folder(self):
         """

@@ -10,6 +10,7 @@
 > Інформація про ціни на нерухомість доступна починаючи з 2003 року.
 >
 ##### Приклад діаграми для Львова
+[Приклад діаграми](http://www.svdevelopment.com/ua/web/flat_costs/)
 <kbd>![Alt text](https://github.com/mykolasopushynskyy/realEstateReport/blob/readme/blob/plot.png?raw=true "Діаграма цін на квартири")</kbd>
 
 ### Міста для яких генеруються звіти
@@ -20,38 +21,38 @@
 - Одеса
 - Харків
 ### Запуск 
-Для запуску зайдіть `main` метод у файлі `./app/application.py` і запустіть цей скрипт. У разі успішного виконання лог буде наступним.
+Для запуску запустіть скрипт `./application.py`. Можливе очікування кілька секунд для завантаження інформацї про інфляцію. У разі успішного виконання лог буде наступним.
 
 ```logs
-Starting price parsing for cities: ['київ', 'дніпропетровськ', 'донецьк', 'львів', 'одеса', 'харків']
-Київ [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
-	├─CSV report for city Київ: <project_path>/reports/київ-15-06-2024.csv
-	└─HTML report for city Київ: <project_path>/reports/київ-15-06-2024.html
+Starting price parsing for cities: ['донецьк', 'одеса', 'львів', 'дніпропетровськ', 'харків', 'київ']
 
-Дніпропетровськ [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
-	├─CSV report for city Дніпропетровськ: <project_path>/reports/дніпропетровськ-15-06-2024.csv
-	└─HTML report for city Дніпропетровськ: <project_path>/reports/дніпропетровськ-15-06-2024.html
+0:00:19 ［■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■］ 100% [ 2024 / 2024 ] Донецьк
+	- CSV  report for city Донецьк: <project_path>/reports/донецьк-06-2024.csv
+	- HTML report for city Донецьк: <project_path>/reports/донецьк-06-2024.html
 
-Донецьк [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
-	├─CSV report for city Донецьк: <project_path>/reports/донецьк-15-06-2024.csv
-	└─HTML report for city Донецьк: <project_path>/reports/донецьк-15-06-2024.html
+0:00:18 ［■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■］ 100% [ 2024 / 2024 ] Одеса
+	- CSV  report for city Одеса: <project_path>/reports/одеса-06-2024.csv
+	- HTML report for city Одеса: <project_path>/reports/одеса-06-2024.html
 
-Львів [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
-	├─CSV report for city Львів: <project_path>/reports/львів-15-06-2024.csv
-	└─HTML report for city Львів: <project_path>/reports/львів-15-06-2024.html
+0:00:18 ［■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■］ 100% [ 2024 / 2024 ] Львів
+	- CSV  report for city Львів: <project_path>/reports/львів-06-2024.csv
+	- HTML report for city Львів: <project_path>/reports/львів-06-2024.html
 
-Одеса [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
-	├─CSV report for city Одеса: <project_path>/reports/одеса-15-06-2024.csv
-	└─HTML report for city Одеса: <project_path>/reports/одеса-15-06-2024.html
+0:00:19 ［■■■■■■■■■■■■■■■■■■■■■■■■■■■■］ 100% [ 2024 / 2024 ] Дніпропетровськ
+	- CSV  report for city Дніпропетровськ: <project_path>/reports/дніпропетровськ-06-2024.csv
+	- HTML report for city Дніпропетровськ: <project_path>/reports/дніпропетровськ-06-2024.html
 
-Харків [ 2024 / 2024 ] 100% [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]
-	├─CSV report for city Харків: <project_path>/reports/харків-15-06-2024.csv
-	└─HTML report for city Харків: <project_path>/reports/харків-15-06-2024.html
+0:00:20 ［■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■］ 100% [ 2024 / 2024 ] Харків
+	- CSV  report for city Харків: <project_path>/reports/харків-06-2024.csv
+	- HTML report for city Харків: <project_path>/reports/харків-06-2024.html
+
+0:00:19 ［■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■］ 100% [ 2024 / 2024 ] Київ
+	- CSV  report for city Київ: <project_path>/reports/київ-06-2024.csv
+	- HTML report for city Київ: <project_path>/reports/київ-06-2024.html
+
 ```
-### Можливі покращення
-> [!TIP]
-> Додати генерацію інтерактивних діаграм з урахуванням поправки на інфляцію долара США
 
 ### Ресурси використані в проєкті
 1. [SV Development](http://www.svdevelopment.com/ua/web/flat_costs/) - джерело з якого береться статистика для звітів
 2. [Plotly Python](https://plotly.com/python/) - бібліотека для генерування інтерактивних діаграм
+3. [CPI library](https://pypi.org/project/cpi/) - бібліотека для підрахунку інфляції доллара США

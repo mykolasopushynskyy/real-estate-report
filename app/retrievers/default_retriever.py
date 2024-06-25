@@ -32,7 +32,7 @@ class RealEstateRawInfoRetriever:
         date1 = "%s-01-01" % year
         date2 = "%s-01-01" % (year + 1)
 
-        city_reg = self.configs.get_cities()[city]
+        city_reg = self.configs.get_cities_mappings()[city]
 
         payload = (
                 "st%5Bact%5D=stat&st%5Boblast%5D=" + city_reg + (

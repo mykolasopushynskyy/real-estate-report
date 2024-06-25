@@ -38,7 +38,7 @@ class RealEstateCSVReporter:
                 fields.append(field + " інфл.")
 
         report_file = os.path.abspath(os.path.join(self.configs.get_report_destination_folder(),
-                                                   city + "-" + datetime.now().strftime('%d-%m-%Y') + ".csv"))
+                                                   city + "-" + datetime.now().strftime('%m-%Y') + ".csv"))
 
         with open(report_file, 'w') as csvfile:
             # creating a csv dict writer object

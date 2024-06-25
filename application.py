@@ -19,7 +19,7 @@ class App:
     App class is implemented to create a structure of the application and contains mail business logic
     """
 
-    def __init__(self):
+    def __init__(self, cl_args: argparse.Namespace):
         """
         Initialize the core structure of application
 
@@ -27,8 +27,10 @@ class App:
         - initializes HTML raw date retriever
         - initializes HTML real estate prices parsers
         - initializes CSV and HTML reporters
+
+        :param cl_args: command-line arguments
         """
-        self.configs = configs.AppConfigs()
+        self.configs = configs.AppConfigs(cl_args)
         self.retriever = retrievers.RealEstateRawInfoRetriever(self.configs)
         self.parser = parsers.RealEstateRawInfoParser()
         self.html_reporter = html_reporters.RealEstateHTMLReporter(self.configs)
@@ -87,20 +89,15 @@ class App:
         bar.print()
         return csv_report, html_report
 
-    def main(self, cities: list = None):
+    def main(self):
         """
-        Run the main logic of application. Get the cities list from configs and starts to generate reports for each
+        Run the main logic of application. Get the cities list from configs or args and starts to generate reports for each
         city one-by-one.
-
-        :param cities: cities to generate report for
         """
-        allowed_cities = set(self.configs.get_cities().keys())
+        cities = set(self.configs.get_cities())
+        allowed_cities = set(self.configs.get_cities_mappings().keys())
 
-        if cities is None or len(cities) == 0:
-            cities = allowed_cities
-        else:
-            cities = {city.lower() for city in cities}
-
+        # validate cities
         if not cities.issubset(allowed_cities):
             raise ValueError("Cities %s are not allowed" % (list(cities - allowed_cities)))
 
@@ -112,10 +109,10 @@ class App:
 if __name__ == '__main__':
     """Application entrypoint."""
     parser = argparse.ArgumentParser("Real estate reporter")
-    parser.add_argument('-c', '--cities', nargs='+', default=[], required=False,
+    parser.add_argument('-c', '--cities', nargs='+', default=None, required=False,
                         help="cities for report generation")
-
-    args = parser.parse_args()
+    parser.add_argument('--hide-districts', default=None, required=False, type=str,
+                        help="toggle off districts prices on diagram")
 
     # run application
-    App().main(args.cities)
+    App(parser.parse_args()).main()
