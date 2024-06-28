@@ -2,7 +2,7 @@ import argparse
 import unittest
 import configs
 
-from app.retrievers.default_retriever import RealEstateRawInfoRetriever
+from retrievers.default_retriever import RealEstateRawInfoRetriever
 
 
 class RealEstateRawInfoRetrieverTest(unittest.TestCase):

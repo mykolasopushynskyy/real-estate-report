@@ -1,9 +1,11 @@
 import collections
 
 from datetime import datetime
-from app.consts import HTML_PARSER, DATE_FIELD
+from consts import HTML_PARSER, DATE_FIELD
 from bs4 import BeautifulSoup
-from app.parsed_report import ParsedReport
+from parsed_report import ParsedReport
+
+FULL_TABLE_LENGTH = 14
 
 collections.Callable = collections.abc.Callable
 
@@ -50,7 +52,7 @@ class RealEstateRawInfoParser:
                 string_data = row.findChildren("td")
 
                 district = str(string_data[0].text).capitalize()
-                if district != "" or len(string_data) == 14 and string_data[1].text.strip() != "-":
+                if district != "" or len(string_data) == FULL_TABLE_LENGTH and string_data[1].text.strip() != "-":
                     if district == "":
                         district = city.capitalize()
                     try:

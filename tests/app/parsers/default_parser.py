@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from app.parsers.default_parser import RealEstateRawInfoParser
+from parsers.default_parser import RealEstateRawInfoParser
 
 TEST_DATA1_FILENAME = os.path.join(os.path.dirname(__file__), 'test_parser_input_no_city.html')
 TEST_DATA2_FILENAME = os.path.join(os.path.dirname(__file__), 'test_parser_input_value_error.html')

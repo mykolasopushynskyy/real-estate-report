@@ -4,7 +4,7 @@ import webcolors
 
 from configs import AppConfigs
 from webcolors import IntegerRGB
-from app.consts import DATE_FIELD
+from consts import DATE_FIELD
 
 COLOR_PALETTE = ["#4421af", "#ea5545", "#f46a9b", "#ef9b20", "#50e991", "#87bc45", "#1a53ff", "#b33dc6", "#e60049",
                  "#0bb4ff", "#9b19f5", "#ffa300", "#dc0ab4", "#00bfa0"]

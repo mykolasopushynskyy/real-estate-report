@@ -3,8 +3,8 @@ import os
 import cpi
 
 from datetime import datetime
-from app.consts import DATE_FIELD
-from app.parsed_report import ParsedReport
+from consts import DATE_FIELD
+from parsed_report import ParsedReport
 from configs import AppConfigs
 
 

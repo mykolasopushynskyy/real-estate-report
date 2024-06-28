@@ -1,13 +1,13 @@
 import progressbar
 import argparse
 import configs
-import app.retrievers.default_retriever as retrievers
-import app.parsers.default_parser as parsers
-import app.reporter.html_reporter as html_reporters
-import app.reporter.csv_reporter as csv_reporters
+import retrievers.default_retriever as retrievers
+import reporter.html_reporter as html_reporter
+import reporter.csv_reporter as csv_reporter
+import parsers.default_parser as parsers
 
 from datetime import datetime
-from app.parsed_report import ParsedReport
+from parsed_report import ParsedReport
 
 # progress bar variables names
 CITY = "city"
@@ -33,8 +33,8 @@ class App:
         self.configs = configs.AppConfigs(cl_args)
         self.retriever = retrievers.RealEstateRawInfoRetriever(self.configs)
         self.parser = parsers.RealEstateRawInfoParser()
-        self.html_reporter = html_reporters.RealEstateHTMLReporter(self.configs)
-        self.csv_reporter = csv_reporters.RealEstateCSVReporter(self.configs)
+        self.html_reporter = html_reporter.RealEstateHTMLReporter(self.configs)
+        self.csv_reporter = csv_reporter.RealEstateCSVReporter(self.configs)
 
         progressbar.streams.flush()
         progressbar.streams.wrap_stdout()
@@ -106,12 +106,12 @@ class App:
             self.generate_report_for_city(city)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """Application entrypoint."""
     parser = argparse.ArgumentParser("Real estate reporter")
-    parser.add_argument('-c', '--cities', nargs='+', default=None, required=False,
+    parser.add_argument("-c", "--cities", nargs="+", default=None, required=False,
                         help="cities for report generation")
-    parser.add_argument('--hide-districts', default=None, required=False, type=str,
+    parser.add_argument("--hide-districts", default=None, required=False, type=str,
                         help="toggle off districts prices on diagram")
 
     # run application

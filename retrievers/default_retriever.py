@@ -1,14 +1,15 @@
+import jinja2
 import requests
 
 from configs import AppConfigs
+
+REGION = "0"
 
 
 class RealEstateRawInfoRetriever:
     """
     A class used to make calls to real estate source.
     """
-
-    REGION = "0"
 
     def __init__(self, configs: AppConfigs):
         """
@@ -17,6 +18,9 @@ class RealEstateRawInfoRetriever:
         :param configs: application configs
         """
         self.configs = configs
+        self.env = jinja2.Environment()
+        self.template = self.env.from_string("st%5Bact%5D=stat&st%5Boblast%5D={{city_reg}}&st%5Bregion%5D={{region}}"
+                                             "&st%5Bdate1%5D={{from_date}}&st%5Bdate2%5D={{to_date}}")
 
     def retrieve(self, city: str, year: int):
         """
@@ -29,15 +33,12 @@ class RealEstateRawInfoRetriever:
         """
         url = self.configs.get_source_url()
 
-        date1 = "%s-01-01" % year
-        date2 = "%s-01-01" % (year + 1)
+        from_date = "%s-01-01" % year
+        to_date = "%s-01-01" % (year + 1)
 
         city_reg = self.configs.get_cities_mappings()[city]
+        payload = self.template.render(city_reg=city_reg, region=REGION, from_date=from_date, to_date=to_date)
 
-        payload = (
-                "st%5Bact%5D=stat&st%5Boblast%5D=" + city_reg + (
-                "&st%5Bregion%5D=" + RealEstateRawInfoRetriever.REGION +
-                ("&st%5Bdate1%5D=" + date1 + ("&st%5Bdate2%5D=" + date2))))
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
