@@ -1,5 +1,4 @@
 import unittest
-from datetime import datetime
 from consts import DATE_FIELD
 from parsed_report import ParsedReport
 from unittest.mock import patch, MagicMock, mock_open, Mock, call
@@ -7,6 +6,8 @@ from reporter.csv_reporter import RealEstateCSVReporter
 
 USER_DESTINATION_REPORT = "/user/destination/report"
 INFLATION_ADJUSTMENT_YEAR = 2003
+CURRENT_YEAR = 2024
+CURRENT_MONTH = 1
 
 PARSED_REPORT = ParsedReport()
 PARSED_REPORT.append_column(DATE_FIELD, [
@@ -24,8 +25,9 @@ class TestRealEstateCSVReporter(unittest.TestCase):
         config = Mock()
         config.get_report_destination_folder = MagicMock(return_value=USER_DESTINATION_REPORT)
         config.get_inflation_adjustment_year = MagicMock(return_value=INFLATION_ADJUSTMENT_YEAR)
+        config.get_current_year = MagicMock(return_value=CURRENT_YEAR)
+        config.get_current_month = MagicMock(return_value=CURRENT_MONTH)
         unit = RealEstateCSVReporter(config)
-        unit.now = MagicMock(return_value=datetime(2024, 1, 1))
 
         unit.generate_report("львів", PARSED_REPORT)
 

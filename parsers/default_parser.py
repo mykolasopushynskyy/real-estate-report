@@ -1,6 +1,6 @@
 import collections
 
-from datetime import datetime
+from configs import AppConfigs
 from consts import HTML_PARSER, DATE_FIELD
 from bs4 import BeautifulSoup
 from parsed_report import ParsedReport
@@ -15,11 +15,13 @@ class RealEstateRawInfoParser:
     A class used to make calls to real estate source and parse the HTML results from site.
     """
 
-    def __init__(self):
+    def __init__(self, configs: AppConfigs):
         """
         Init method of :class:`RealEstateRawInfoParser` class
+
+        :param configs: application configs
         """
-        pass
+        self.configs = configs
 
     def parse(self, city: str, year: int, html: str):
         """
@@ -40,7 +42,8 @@ class RealEstateRawInfoParser:
 
         dates = []
         districts = {}
-        for month in range(1, 13 if year != datetime.now().year else datetime.now().month):
+        month_to_parse = 13 if year != self.configs.get_current_year() else self.configs.get_current_month()
+        for month in range(1, month_to_parse):
             date = (soup.find_all("table", class_="tHH")[0]
             .find_all_next("tr", class_="headHH2")[0]
             .find_all_next("td")[month]).text.split(".")
@@ -60,7 +63,7 @@ class RealEstateRawInfoParser:
                         if not (district in districts.keys()):
                             districts[district] = []
                         districts[district].append(price)
-                    except ValueError:
+                    except ValueError as e:
                         districts[district].append(0)
 
         for district in districts:

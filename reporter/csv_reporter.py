@@ -37,8 +37,8 @@ class RealEstateCSVReporter:
             if field != DATE_FIELD:
                 fields.append(field + " інфл.")
 
-        report_file = os.path.abspath(os.path.join(self.configs.get_report_destination_folder(),
-                                                   city + "-" + self.now().strftime('%m-%Y') + ".csv"))
+        report_file = "%s-%02d-%d.csv" % (city, self.configs.get_current_month(), self.configs.get_current_year())
+        report_file = os.path.abspath(os.path.join(self.configs.get_report_destination_folder(), report_file))
 
         with open(report_file, 'w') as csvfile:
             # creating a csv dict writer object
@@ -69,7 +69,3 @@ class RealEstateCSVReporter:
                 csvfile.flush()
 
         return report_file
-
-    def now(self):
-        """Return current time for reports. Made as separate method for test simplification."""
-        return datetime.now()

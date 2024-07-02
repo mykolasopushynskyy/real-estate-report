@@ -60,7 +60,7 @@ class App:
 
         widgets = [
             progressbar.Timer("%(elapsed)s"), " ",
-            progressbar.GranularBar(markers=" ■", left="［", right="］"), " ",
+            progressbar.GranularBar(markers=" ■", left="[", right="]"), " ",
             progressbar.Percentage(), " ",
             progressbar.Variable(YEAR, format="{formatted_value}", width=15), " ",
             progressbar.Variable(CITY, format="{formatted_value}", width=4)

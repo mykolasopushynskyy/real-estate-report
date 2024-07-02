@@ -1,6 +1,7 @@
 import configparser
 import os
 import argparse
+from datetime import datetime
 
 SOURCE = "source"
 SOURCE_URL = "url"
@@ -65,6 +66,7 @@ class AppConfigs:
 
         self.cl_args = cl_args
         self.config = configparser.ConfigParser()
+        self.current_date = datetime.now()
         self.config.read(configfile)
 
     def get_source_url(self):
@@ -137,3 +139,11 @@ class AppConfigs:
         """
 
         return os.path.join(os.path.dirname(__file__), self.config.get(REPORT, DESTINATION_FOLDER))
+
+    def get_current_year(self):
+        """Return current year for reports. Made as separate method for test simplification."""
+        return self.current_date.year
+
+    def get_current_month(self):
+        """Return current month for reports. Made as separate method for test simplification."""
+        return self.current_date.month
