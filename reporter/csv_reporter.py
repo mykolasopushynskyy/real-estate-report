@@ -38,7 +38,7 @@ class RealEstateCSVReporter:
                 fields.append(field + " інфл.")
 
         report_file = os.path.abspath(os.path.join(self.configs.get_report_destination_folder(),
-                                                   city + "-" + datetime.now().strftime('%m-%Y') + ".csv"))
+                                                   city + "-" + self.now().strftime('%m-%Y') + ".csv"))
 
         with open(report_file, 'w') as csvfile:
             # creating a csv dict writer object
@@ -60,12 +60,16 @@ class RealEstateCSVReporter:
                                                     datetime.strptime(row[DATE_FIELD], "%Y-%m-%d"),
                                                     to=self.inflate_to)
                             row[district_adj] = round(value_adj)
-                    except TypeError:
-                        print("Parsing error: " + __file__)
-                    except IndexError:
-                        print("Parsing error: " + __file__)
+                    except TypeError as e:
+                        print(e)
+                    except IndexError as e:
+                        print(e)
 
                 writer.writerow(row)
                 csvfile.flush()
 
         return report_file
+
+    def now(self):
+        """Return current time for reports. Made as separate method for test simplification."""
+        return datetime.now()
