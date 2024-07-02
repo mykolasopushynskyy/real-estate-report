@@ -6,7 +6,6 @@ import reporter.html_reporter as html_reporter
 import reporter.csv_reporter as csv_reporter
 import parsers.default_parser as parsers
 
-from datetime import datetime
 from parsed_report import ParsedReport
 
 # progress bar variables names
@@ -55,7 +54,7 @@ class App:
         """
         parsed_report = ParsedReport()
 
-        end_year = datetime.now().year + 1
+        end_year = self.configs.get_current_year() + 1
         start_year = self.configs.get_start_year()
 
         widgets = [
