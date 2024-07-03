@@ -32,7 +32,7 @@ class App:
         self.configs = configs.AppConfigs(cl_args)
         self.retriever = retrievers.RealEstateRawInfoRetriever(self.configs)
         self.parser = parsers.RealEstateRawInfoParser(self.configs)
-        self.html_reporter = html_reporter.RealEstateHTMLReporter()
+        self.html_reporter = html_reporter.RealEstateHTMLReporter(self.configs)
         self.csv_reporter = csv_reporter.RealEstateCSVReporter(self.configs)
 
         progressbar.streams.flush()
@@ -108,7 +108,7 @@ class App:
 if __name__ == "__main__":
     """Application entrypoint."""
     parser = argparse.ArgumentParser("Real estate reporter")
-    parser.add_argument("-c", "--cities", nargs="+", default=None, required=False,
+    parser.add_argument("-c", "--cities", nargs="+", default=[], required=False,
                         help="cities for report generation")
     parser.add_argument("--hide-districts", default=None, required=False, type=str,
                         help="toggle off districts prices on diagram")

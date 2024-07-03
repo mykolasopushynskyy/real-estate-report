@@ -38,7 +38,7 @@ def is_true_config(value: str):
             "y".casefold() == value.casefold())
 
 
-def value_or_else(value, or_else):
+def empty_or_else(value, or_else):
     """
     Return property value. If it is not present return or_else property
 
@@ -47,6 +47,8 @@ def value_or_else(value, or_else):
     :return:
     """
     if value is None:
+        return or_else
+    if isinstance(value, list) and len(value) == 0:
         return or_else
     return value
 
@@ -66,7 +68,6 @@ class AppConfigs:
 
         self.cl_args = cl_args
         self.config = configparser.ConfigParser()
-        self.current_date = datetime.now()
         self.config.read(configfile)
 
     def get_source_url(self):
@@ -99,7 +100,7 @@ class AppConfigs:
         :return: mapping between cities and retriever url city id
         :rtype: dict
         """
-        return value_or_else([city.lower() for city in self.cl_args.cities],
+        return empty_or_else([city.lower() for city in self.cl_args.cities],
                              [city for city in self.config.options(CITIES)])
 
     def get_start_year(self):
@@ -127,8 +128,8 @@ class AppConfigs:
         :rtype: bool
         """
 
-        return value_or_else(is_true_config(self.cl_args.hide_districts),
-                             is_true_config(self.config.get(REPORT, HIDE_DISTRICTS)))
+        return is_true_config(empty_or_else(self.cl_args.hide_districts,
+                                            self.config.get(REPORT, HIDE_DISTRICTS)))
 
     def get_report_destination_folder(self):
         """
@@ -142,8 +143,8 @@ class AppConfigs:
 
     def get_current_year(self):
         """Return current year for reports. Made as separate method for test simplification."""
-        return self.current_date.year
+        return datetime.now().year
 
     def get_current_month(self):
         """Return current month for reports. Made as separate method for test simplification."""
-        return self.current_date.month
+        return datetime.now().month
