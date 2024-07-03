@@ -3,7 +3,7 @@ import os
 from unittest.mock import Mock, MagicMock
 
 from consts import DATE_FIELD
-from parsers.default_parser import RealEstateRawInfoParser
+from parser.default_parser import RealEstateRawInfoParser
 from test import read_file_data
 
 TEST_DATA_FILENAME1 = os.path.join(os.path.dirname(__file__), "test_parser_input_no_city.html")

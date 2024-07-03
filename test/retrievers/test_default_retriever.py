@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, Mock
 
 import responses
 
-from retrievers.default_retriever import RealEstateRawInfoRetriever
+from retriever.default_retriever import RealEstateRawInfoRetriever
 
 TEST_DATA = "<html></html>"
 TEST_URL = "http://www.svdevelopment.com/ua/web/flat_costs/"

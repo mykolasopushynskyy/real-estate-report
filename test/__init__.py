@@ -5,7 +5,7 @@ def read_file_data(filename: str, encoding="cp1251"):
     :param encoding: test file data encoding
     :return: test datafile content
     """
-    with(open(filename, mode="rb") as test_file):
+    with (open(filename, mode="rb") as test_file):
         testdata = test_file.read()
         test_file.close()
 

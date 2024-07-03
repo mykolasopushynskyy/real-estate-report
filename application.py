@@ -1,10 +1,10 @@
 import progressbar
 import argparse
 import configs
-import retrievers.default_retriever as retrievers
 import reporter.html_reporter as html_reporter
+import retriever.default_retriever as retriever
 import reporter.csv_reporter as csv_reporter
-import parsers.default_parser as parsers
+import parser.default_parser as parser
 
 from parsed_report import ParsedReport
 
@@ -30,8 +30,8 @@ class App:
         :param cl_args: command-line arguments
         """
         self.configs = configs.AppConfigs(cl_args)
-        self.retriever = retrievers.RealEstateRawInfoRetriever(self.configs)
-        self.parser = parsers.RealEstateRawInfoParser(self.configs)
+        self.retriever = retriever.RealEstateRawInfoRetriever(self.configs)
+        self.parser = parser.RealEstateRawInfoParser(self.configs)
         self.html_reporter = html_reporter.RealEstateHTMLReporter(self.configs)
         self.csv_reporter = csv_reporter.RealEstateCSVReporter(self.configs)
 
@@ -100,7 +100,9 @@ class App:
         if not cities.issubset(allowed_cities):
             raise ValueError("Cities %s are not allowed" % (list(cities - allowed_cities)))
 
-        print("\nStarting price parsing for cities: {0}\n".format(list(cities)))
+        sorted_cities = list(cities)
+        sorted_cities.sort()
+        print("\nStarting price parsing for cities: {0}\n".format(sorted_cities))
         for city in cities:
             self.generate_report_for_city(city)
 
