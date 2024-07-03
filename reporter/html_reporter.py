@@ -70,17 +70,17 @@ class RealEstateHTMLReporter:
         """
         self.config = configs
 
-    def generate_report(self, city: str, districts: list, report_file: str):
+    def generate_report(self, city: str, districts: list, data_file: str):
         """
         A method used to generate real estate HTML diagram report.
 
         :param city: city of report
         :param districts: city districts of report
-        :param report_file: file of CSV data to build diagram
+        :param data_file: file of CSV data to build diagram
         :return: HTML report file path
         :rtype: str
         """
-        df = pd.read_csv(report_file)
+        df = pd.read_csv(data_file)
         city = city.capitalize()
         fig = go.Figure()
         color_iterator = ColorIterator(COLOR_PALETTE)
@@ -154,6 +154,16 @@ class RealEstateHTMLReporter:
             ]
         )
 
-        html_report_file = report_file.replace(".csv", ".html")
+        html_report_file = self.get_report_file_path(data_file)
         fig.write_html(html_report_file, auto_open=False)
         return html_report_file
+
+    def get_report_file_path(self, data_file):
+        """
+        Gets report file name out of data file name
+
+        :param data_file: data file absolute path
+        :return: report file name
+        :rtype: str
+        """
+        return data_file.replace(".csv", ".html")

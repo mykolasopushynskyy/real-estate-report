@@ -31,8 +31,8 @@ class App:
         """
         self.configs = configs.AppConfigs(cl_args)
         self.retriever = retrievers.RealEstateRawInfoRetriever(self.configs)
-        self.parser = parsers.RealEstateRawInfoParser()
-        self.html_reporter = html_reporter.RealEstateHTMLReporter(self.configs)
+        self.parser = parsers.RealEstateRawInfoParser(self.configs)
+        self.html_reporter = html_reporter.RealEstateHTMLReporter()
         self.csv_reporter = csv_reporter.RealEstateCSVReporter(self.configs)
 
         progressbar.streams.flush()
