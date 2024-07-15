@@ -14,8 +14,10 @@ class ParsedReport:
 
     def __init__(self):
         """
+        if __init__ method not take any parameters or not has any side effects please not add dockstring
         Init method of :class:`ParsedReport` class. Initializes the records with empty dates column.
         """
+
         self.records = {
             DATE_FIELD: []
         }
@@ -27,6 +29,7 @@ class ParsedReport:
         :param date: time of new row record
         :param prices: prices for each city districts
         """
+
         for district in prices:
             if district != DATE_FIELD:
                 if not (district in self.records):
@@ -42,6 +45,7 @@ class ParsedReport:
         :param name: district name
         :param values: prices
         """
+
         if not (name in self.records):
             self.records[name] = []
         self.records[name].extend(values)
@@ -52,6 +56,7 @@ class ParsedReport:
 
         :param report: report to extend
         """
+
         for key in report.records.keys():
             if not (key in self.records):
                 self.records[key] = []

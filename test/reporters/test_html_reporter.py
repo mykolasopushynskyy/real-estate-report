@@ -3,12 +3,12 @@ import re
 import unittest
 from unittest.mock import Mock, MagicMock
 
-from reporter.html_reporter import brighter_color, ColorIterator, RealEstateHTMLReporter
+from reporter.html_reporter import brighter_color, ColorIterator, RealEstateHTMLReporter, get_report_file_path
 from test import read_file_data
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "львів-06-2024.csv")
-EXPECTED_REPORT_FILE = os.path.join(os.path.dirname(__file__), "львів-06-2024.html")
-ACTUAL_REPORT_FILE = os.path.join(os.path.dirname(__file__), "львів-06-2024-actual.html")
+EXPECTED_REPORT_FILE = os.path.join(os.path.dirname(__file__), "львів-06-2024-expected.html")
+ACTUAL_REPORT_FILE = os.path.join(os.path.dirname(__file__), "львів-06-2024.html")
 
 CITY = "львів"
 EXPECTED_REPORT = read_file_data(EXPECTED_REPORT_FILE, encoding="utf-8")
@@ -29,14 +29,13 @@ class TestBrighterColor(unittest.TestCase):
 
 class TestColorIterator(unittest.TestCase):
     def setUp(self):
-        self.colors = ["#000000", "#ffffff", "#4421af"]
-        self.color_iterator = ColorIterator(self.colors)
+        self.color_iterator = ColorIterator()
 
     def test_iter(self):
         iterator = iter(self.color_iterator)
-        self.assertEqual(next(iterator), {'dark': '#000000', 'bright': '#545454'})
-        self.assertEqual(next(iterator), {'dark': '#ffffff', 'bright': '#ffffff'})
         self.assertEqual(next(iterator), {'dark': '#4421af', 'bright': '#816ac9'})
+        self.assertEqual(next(iterator), {'dark': '#ea5545', 'bright': '#f08d82'})
+        self.assertEqual(next(iterator), {'dark': '#f46a9b', 'bright': '#f79bbc'})
 
 
 class TestRealEstateHTMLReporter(unittest.TestCase):
@@ -45,7 +44,6 @@ class TestRealEstateHTMLReporter(unittest.TestCase):
         config = Mock()
         config.hide_districts = MagicMock(return_value=False)
         unit = RealEstateHTMLReporter(config)
-        unit.get_report_file_path = MagicMock(return_value=ACTUAL_REPORT_FILE)
 
         report_file = unit.generate_report(CITY, DISTRICTS, DATA_FILE)
 

@@ -1,11 +1,15 @@
 import csv
 import os
 import cpi
+import logging
 
 from datetime import datetime
 from consts import DATE_FIELD
 from parsed_report import ParsedReport
 from configs import AppConfigs
+
+# logger
+logger = logging.getLogger(__name__)
 
 
 class RealEstateCSVReporter:
@@ -61,9 +65,9 @@ class RealEstateCSVReporter:
                                                     to=self.inflate_to)
                             row[district_adj] = round(value_adj)
                     except TypeError as e:
-                        print(e)
+                        logger.error("Can't parse price value: ", e)
                     except IndexError as e:
-                        print(e)
+                        logger.error("Can't html page: ", e)
 
                 writer.writerow(row)
                 csvfile.flush()

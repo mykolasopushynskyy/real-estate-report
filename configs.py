@@ -1,3 +1,7 @@
+"""
+todo add description of this file
+"""
+
 import configparser
 import os
 import argparse
@@ -141,10 +145,12 @@ class AppConfigs:
 
         return os.path.join(os.path.dirname(__file__), self.config.get(REPORT, DESTINATION_FOLDER))
 
-    def get_current_year(self):
+    @staticmethod
+    def get_current_year():
         """Return current year for reports. Made as separate method for test simplification."""
         return datetime.now().year
 
-    def get_current_month(self):
+    @staticmethod
+    def get_current_month():
         """Return current month for reports. Made as separate method for test simplification."""
         return datetime.now().month

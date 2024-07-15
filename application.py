@@ -1,3 +1,15 @@
+#todo if this script mean to be executed in unix like system add shebang https://realpython.com/python-shebang/
+# shebang need to be added only to entry points
+
+"""
+todo: please add description of script here
+also please add script usage in following format
+./application.py <zalupa_config.json> <ibat_report_dir>
+    <zalupa_config.json> - path to files with configuration of zalupas in format:
+        {<zalupa> : {<zalupa_directory>: <path_to_zalupa_directory>,
+                     <zalupa_size>: <zalupa_size_float>}
+"""
+import logging
 import progressbar
 import argparse
 import configs
@@ -7,6 +19,9 @@ import reporter.csv_reporter as csv_reporter
 import parser.default_parser as parser
 
 from parsed_report import ParsedReport
+
+# logger
+logger = logging.getLogger(__name__)
 
 # progress bar variables names
 CITY = "city"
@@ -42,14 +57,22 @@ class App:
         """
         Generates full report for one region/city
 
-        We are calling api to retrieve information yearly starting from 2003 to current yar about some particular
-        city(ies) we store information in configs file or manual using The result is the parsed dictionary with
+        Calling API to retrieve information yearly starting from 2003 to current yar about some particular
+        city(ies). store information in configs file or manual using the result is the parsed dictionary with
         time-series monthly data about prices by city districts Than the data is written to CSV file to keep raw
         information as well as into interactive HTML diagram which is useful for demos or presentation in
         human-readable form.
 
         :param city: The name of the city from configs
         :return: CSV and HTML reports absolute path's
+            todo change to something like this
+                ((<page column>,   <zalupa column>),
+                 (<page1_example>, <zalupa_str_example>),
+                 ...
+                 (<pagen_example>, <zalupa_kentavra_str>))
+                the complex data type should be described with well know data types
+                in case this data type should be used in multiple places please define new type
+                and use it in hinting https://peps.python.org/pep-0484/
         :rtype: tuple
         """
         parsed_report = ParsedReport()
@@ -88,27 +111,28 @@ class App:
         bar.print()
         return csv_report, html_report
 
-    def main(self):
-        """
-        Run the main logic of application. Get the cities list from configs or args and starts to generate reports for each
-        city one-by-one.
-        """
-        cities = set(self.configs.get_cities())
-        allowed_cities = set(self.configs.get_cities_mappings().keys())
 
-        # validate cities
-        if not cities.issubset(allowed_cities):
-            raise ValueError("Cities %s are not allowed" % (list(cities - allowed_cities)))
+def main(app: App):
+    """
+    Run the main logic of application. Get the cities list from configs or args and starts to generate reports for
+    each city one-by-one.
+    """
+    cities = set(app.configs.get_cities())
+    allowed_cities = set(app.configs.get_cities_mappings().keys())
 
-        sorted_cities = list(cities)
-        sorted_cities.sort()
-        print("\nStarting price parsing for cities: {0}\n".format(sorted_cities))
-        for city in cities:
-            self.generate_report_for_city(city)
+    # validate cities
+    if not cities.issubset(allowed_cities):
+        raise ValueError("Cities %s are not allowed" % (list(cities - allowed_cities)))
+
+    sorted_cities = list(cities)
+    sorted_cities.sort()
+    logger.info("\nStarting price parsing for cities: {0}\n".format(sorted_cities))
+    for city in cities:
+        app.generate_report_for_city(city)
 
 
 if __name__ == "__main__":
-    """Application entrypoint."""
+    """Application entrypoint. todo:remove this"""
     parser = argparse.ArgumentParser("Real estate reporter")
     parser.add_argument("-c", "--cities", nargs="+", default=[], required=False,
                         help="cities for report generation")
@@ -116,4 +140,4 @@ if __name__ == "__main__":
                         help="toggle off districts prices on diagram")
 
     # run application
-    App(parser.parse_args()).main()
+    main(App(parser.parse_args()))

@@ -1,8 +1,8 @@
 import unittest
+import argparse
 from unittest.mock import MagicMock, patch
 from io import StringIO
-import argparse
-from application import App
+from application import App, main
 
 
 class TestApp(unittest.TestCase):
@@ -52,7 +52,7 @@ class TestApp(unittest.TestCase):
         self.app.generate_report_for_city = MagicMock()
 
         # Call main method
-        self.app.main()
+        main(self.app)
 
         # Assert output and calls were made correctly
         expected_output = "\nStarting price parsing for cities: ['Los Angeles', 'New York']\n\n"
@@ -69,7 +69,7 @@ class TestApp(unittest.TestCase):
 
         # Call main method
         with self.assertRaises(ValueError) as context:
-            self.app.main()
+            main(self.app)
             self.assertEqual(str(context.exception), "Cities ['Boston'] are not allowed")
 
 
