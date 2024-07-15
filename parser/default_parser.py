@@ -1,7 +1,6 @@
 import collections
 
-from configs import AppConfigs
-from consts import HTML_PARSER, DATE_FIELD
+from configs import AppConfigs, HTML_PARSER, DATE_FIELD
 from bs4 import BeautifulSoup
 from parsed_report import ParsedReport
 

@@ -2,9 +2,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import webcolors
 
-from configs import AppConfigs
+from configs import AppConfigs, DATE_FIELD
 from webcolors import IntegerRGB
-from consts import DATE_FIELD
 
 COLOR_PALETTE = ("#4421af", "#ea5545", "#f46a9b", "#ef9b20", "#50e991", "#87bc45", "#1a53ff", "#b33dc6", "#e60049",
                  "#0bb4ff", "#9b19f5", "#ffa300", "#dc0ab4", "#00bfa0")

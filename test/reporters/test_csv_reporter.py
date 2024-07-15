@@ -1,5 +1,5 @@
 import unittest
-from consts import DATE_FIELD
+from configs import DATE_FIELD
 from parsed_report import ParsedReport
 from unittest.mock import patch, MagicMock, mock_open, Mock, call
 from reporter.csv_reporter import RealEstateCSVReporter

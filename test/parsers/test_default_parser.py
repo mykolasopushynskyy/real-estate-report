@@ -2,7 +2,7 @@ import unittest
 import os
 from unittest.mock import Mock, MagicMock
 
-from consts import DATE_FIELD
+from configs import DATE_FIELD
 from parser.default_parser import RealEstateRawInfoParser
 from test import read_file_data
 

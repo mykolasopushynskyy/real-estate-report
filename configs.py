@@ -1,5 +1,6 @@
 """
-todo add description of this file
+This module contains application configuration class and various additional util methods. It reads properties from
+config file and merges it with some commandline configs which have bigger priority.
 """
 
 import configparser
@@ -17,6 +18,10 @@ DESTINATION_FOLDER = "destination_folder"
 INFLATION_ADJUSTMENT_YEAR = "inflation_adjustment_year"
 
 PROJECT_DIR = os.path.dirname(__file__)
+
+DATE_FIELD = "Date"
+CSV_DATE_FORMAT = "%Y-%m-%d"
+HTML_PARSER = "html.parser"
 
 
 def obfuscate_path(file_path: str):
@@ -59,7 +64,8 @@ def empty_or_else(value, or_else):
 
 class AppConfigs:
     """
-    A class used to read project properties. Reads properties from config file.
+    A class used to read project properties. Reads properties from config file and merges it with commandline
+    properties.
     """
 
     def __init__(self, cl_args: argparse.Namespace):

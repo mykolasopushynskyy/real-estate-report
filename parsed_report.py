@@ -1,4 +1,4 @@
-from consts import DATE_FIELD
+from configs import DATE_FIELD
 
 
 class ParsedReport:

@@ -4,9 +4,8 @@ import cpi
 import logging
 
 from datetime import datetime
-from consts import DATE_FIELD
 from parsed_report import ParsedReport
-from configs import AppConfigs
+from configs import AppConfigs, DATE_FIELD
 
 # logger
 logger = logging.getLogger(__name__)
