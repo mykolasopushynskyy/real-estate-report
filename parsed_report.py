@@ -3,13 +3,12 @@ from configs import DATE_FIELD
 
 class ParsedReport:
     """
-    Class used to represent a time-series report of prices of city and city districts
-    {
-        "Date":      [date1,  date2,  ...]
-        "District1": [price1, price2, ...]
-        "District2": [price1, price2, ...]
+    Class used to represent a time-series report of real-estate prices
+
+        < "Date" >,       < "Average price" >, < "District price" >, ...
+        < "2003-01-01" >, < 488 >,             < 500 >,              ...
+        < "2003-02-01" >, < 503 >,             < 515 >,              ...
         ...
-    }
     """
 
     def __init__(self):

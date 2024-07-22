@@ -4,6 +4,9 @@ import cpi
 import logging
 
 from datetime import datetime
+
+from cpi.errors import CPIObjectDoesNotExist
+
 from parsed_report import ParsedReport
 from configs import AppConfigs, DATE_FIELD
 
@@ -63,10 +66,13 @@ class RealEstateCSVReporter:
                                                     datetime.strptime(row[DATE_FIELD], "%Y-%m-%d"),
                                                     to=self.inflate_to)
                             row[district_adj] = round(value_adj)
+                    except CPIObjectDoesNotExist as e:
+                        # Inflation data is absent for this time period
+                        row[district_adj] = None
                     except TypeError as e:
                         logger.error("Can't parse price value: ", e)
                     except IndexError as e:
-                        logger.error("Can't html page: ", e)
+                        logger.error("Can't parse html page: ", e)
 
                 writer.writerow(row)
                 csvfile.flush()

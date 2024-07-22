@@ -1,13 +1,17 @@
-#todo if this script mean to be executed in unix like system add shebang https://realpython.com/python-shebang/
-# shebang need to be added only to entry points
+#!/usr/bin/env python3
 
 """
-todo: please add description of script here
-also please add script usage in following format
-./application.py <zalupa_config.json> <ibat_report_dir>
-    <zalupa_config.json> - path to files with configuration of zalupas in format:
-        {<zalupa> : {<zalupa_directory>: <path_to_zalupa_directory>,
-                     <zalupa_size>: <zalupa_size_float>}
+Real estate reporter
+
+usage: ./real-estate-reporter.py [-h] [-c Львів [Київ ...]] [--hide-districts [true | false]]
+
+options:
+  -h, --help           show help message and exit
+  -c Львів [Київ ...], --cities Львів [Київ ...]
+                       cities for report generation
+  --hide-districts [true | false]
+                       toggle off districts prices on diagram
+
 """
 import logging
 import progressbar
@@ -65,14 +69,6 @@ class App:
 
         :param city: The name of the city from configs
         :return: CSV and HTML reports absolute path's
-            todo change to something like this
-                ((<page column>,   <zalupa column>),
-                 (<page1_example>, <zalupa_str_example>),
-                 ...
-                 (<pagen_example>, <zalupa_kentavra_str>))
-                the complex data type should be described with well know data types
-                in case this data type should be used in multiple places please define new type
-                and use it in hinting https://peps.python.org/pep-0484/
         :rtype: tuple
         """
         parsed_report = ParsedReport()
@@ -132,12 +128,11 @@ def main(app: App):
 
 
 if __name__ == "__main__":
-    """Application entrypoint. todo:remove this"""
-    parser = argparse.ArgumentParser("Real estate reporter")
-    parser.add_argument("-c", "--cities", nargs="+", default=[], required=False,
-                        help="cities for report generation")
-    parser.add_argument("--hide-districts", default=None, required=False, type=str,
-                        help="toggle off districts prices on diagram")
+    arg_parser = argparse.ArgumentParser("./real-estate-reporter.py")
+    arg_parser.add_argument("-c", "--cities", nargs="+", default=[], required=False,
+                            help="cities for report generation")
+    arg_parser.add_argument("--hide-districts", default=None, required=False, type=str,
+                            help="toggle off districts prices on diagram")
 
     # run application
-    main(App(parser.parse_args()))
+    main(App(arg_parser.parse_args()))
