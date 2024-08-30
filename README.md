@@ -1,31 +1,30 @@
-# Звіти по цінах на нерухомість
-### Парсер цін на квартири
+# Real Estate Price Reports
+### Condo Price Parser
 
-Парсер витягує інформацію про ціну на квартири для вторинного ринку з сайту [SV Development](http://www.svdevelopment.com/ua/web/flat_costs/).
+The parser extracts information about apartment prices for the secondary market from the [SV Development](http://www.svdevelopment.com/ua/web/flat_costs/) site.
 
-### Загальна інформація
-Парсер витягує дані починаючи від 2003 року до поточного місяця теперішнього року. Ціни доступні для міста в цілому а також окремо по районах міста і відсортовані по часу. Також генеруються звіти в папці `reports/` у вигляді CSV файлів та інтерактивних діаграм у вигляді HTML файлів.
-
+### General Information
+The parser extracts data starting from 2003 up to the current month of the current year. Prices are available for the city as a whole and also separately by city districts, sorted by time. Reports are generated in the reports/ folder in the form of CSV files and interactive charts in the form of HTML files.
 > [!NOTE]
-> Інформація про ціни на нерухомість доступна починаючи з 2003 року.
+> Real estate price information is available starting from 2003.
 >
-##### Приклад діаграми
+##### Example Chart
 <kbd>![Alt text](https://raw.githubusercontent.com/mykolasopushynskyy/realEstateReport/main/resources/example_result/diagram.png "Діаграма цін на квартири")</kbd>
-- Прямі графіки позначають ціни в долларах США
-- Переривчісті лінії позначають ціни в долларах США з поправкою на інфляцію
-- Подвійний клік по діаграмі змінює масштаб на масштаб по замовчуванню
-- Клікання по назві району на легенді ховає графік на діаграмі
-- [Приклад результатів роботи програми](https://github.com/mykolasopushynskyy/realEstateReport/tree/main/resources/example_result)
+- Solid lines represent prices in USD
+- Dashed lines represent prices in USD adjusted for inflation
+- Double-clicking on the chart resets the zoom to the default scale
+- Clicking on a district name in the legend hides its chart on the diagram
+- [Example of program output](https://github.com/mykolasopushynskyy/realEstateReport/tree/main/resources/example_result)
 
-### Міста для яких генеруються звіти
+### Cities for Which Reports Are Generated
 - Київ
 - Дніпропетровськ
 - Донецьк
 - Львів
 - Одеса
 - Харків
-### Запуск 
-Для запуску запустіть скрипт `./application.py`. Можливе очікування кілька секунд для завантаження інформацї про інфляцію. У разі успішного виконання лог буде наступним.
+### Running the Parser
+To run the parser, execute the ./application.py script. It may take a few seconds to load inflation information. If the execution is successful, the log will look like this:
 
 ```logs
 Starting price parsing for cities: ['донецьк', 'одеса', 'львів', 'дніпропетровськ', 'харків', 'київ']
@@ -56,7 +55,7 @@ Starting price parsing for cities: ['донецьк', 'одеса', 'львів'
 
 ```
 
-### Ресурси використані в проєкті
-1. [SV Development](http://www.svdevelopment.com/ua/web/flat_costs/) - джерело з якого береться статистика для звітів
-2. [Plotly Python](https://plotly.com/python/) - бібліотека для генерування інтерактивних діаграм
-3. [CPI library](https://pypi.org/project/cpi/) - бібліотека для підрахунку інфляції доллара США
+### Resources Used in the Project
+1. [SV Development](http://www.svdevelopment.com/ua/web/flat_costs/) - the source from which statistics for the reports are taken
+2. [Plotly Python](https://plotly.com/python/) - a library for generating interactive charts
+3. [CPI library](https://pypi.org/project/cpi/) - a library for calculating USD inflation
